@@ -326,7 +326,8 @@ knap.addEventListener("click", () => {
 
 ### Opgave 3.3 — Liste af kommentarer
 
-Udvid opgave 3.2 så hver gemt kommentar tilføjes til en liste i stedet for at erstatte den forrige. Brug et array til at holde styr på alle kommentarer.
+Udvid opgave 3.2 så hver gemt kommentar tilføjes til en liste i stedet for at erstatte den forrige. 
+Brug et array til at holde styr på alle kommentarer.
 
 ```html
 <input type="text" id="kommentar-felt">
@@ -337,8 +338,10 @@ Udvid opgave 3.2 så hver gemt kommentar tilføjes til en liste i stedet for at 
 <details>
 <summary>Hint</summary>
 
-Gem kommentarerne i et array med `push()`. Byg listen op ved at sætte `innerHTML` på `<ul>` — spørg AI om hvordan du laver en `<li>` for hvert element i et array.
-
+Gem kommentarerne i et array med `push()`. 
+Byg listen op ved at sætte `innerHTML` på `<ul>` (elementet med id="#kommentar-liste")
+Template literals lader dig sætte værdier ind i en string med ${} — brug backticks i stedet for anførselstegn:
+`<li>${kommentar}</li>`
 </details>
 
 <details>

@@ -31,10 +31,16 @@ Det er den løkke du skal have i hovedet når du læser eller skriver JavaScript
 
 ## State kan også komme udefra
 
-State behøver ikke kun at komme fra brugerinteraktion. Den kan også komme fra en server — f.eks. en liste af grise hentet fra en database. Men princippet er det samme: data gemmes i variabler, og UI'en viser hvad variablerne indeholder.
+State behøver ikke kun at komme fra brugerinteraktion. Den kan også komme fra en server — f.eks. en liste af køreture hentet fra en database. 
+Men princippet er det samme: data gemmes i variabler, og UI'en viser hvad variablerne indeholder.
 
 ## Vigtigste pointer
 
 - State er applikationens hukommelse om hvordan tingene ser ud lige nu
 - Når state ændres, skal UI'en opdateres manuelt i vanilla JavaScript
 - Forstår du state-begrebet, forstår du logikken bag næsten al frontend-kode
+
+**Læs mere**  
+[datatyper i javaScript](https://www.w3schools.com/js/js_datatypes.asp)  
+[variable i javaScript](https://www.w3schools.com/js/js_variables.asp)  
+[array i javaScript](https://www.w3schools.com/js/js_arrays.asp)  

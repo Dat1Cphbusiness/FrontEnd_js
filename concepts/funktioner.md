@@ -46,3 +46,5 @@ const tekst = hentKommentar();
 - Funktioner navngiver og samler adfærd — brug dem til at undgå gentagelse
 - I JavaScript kan funktioner sendes som argumenter til andre funktioner
 - Send funktionen uden parenteser når du sender den som argument — parenteser kalder den med det samme
+
+[læs mere om Funktioner](https://www.w3schools.com/js/js_function_advanced.asp) 

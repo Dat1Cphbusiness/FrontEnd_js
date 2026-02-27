@@ -34,3 +34,5 @@ knap.addEventListener("click", () => {
 - JavaScript i browseren er hændelsesdrevet — kode venter og reagerer
 - Du bestemmer hvilke events der lyttes efter og hvad der sker
 - Funktionen der gives til `addEventListener` kaldes først når eventen sker — ikke med det samme
+
+[læs mere om Events](https://www.w3schools.com/js/js_events.asp) 
