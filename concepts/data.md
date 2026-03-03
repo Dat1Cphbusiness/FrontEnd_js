@@ -41,6 +41,7 @@ Men princippet er det samme: data gemmes i variabler, og UI'en viser hvad variab
 - Forstår du state-begrebet, forstår du logikken bag næsten al frontend-kode
 
 **Læs mere**  
+[forskellen på var, let og const](js-variables.html)
 [datatyper i javaScript](https://www.w3schools.com/js/js_datatypes.asp)  
 [variable i javaScript](https://www.w3schools.com/js/js_variables.asp)  
 [array i javaScript](https://www.w3schools.com/js/js_arrays.asp)  
