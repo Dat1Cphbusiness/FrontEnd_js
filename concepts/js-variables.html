@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>const · let · var — JavaScript Variables</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Fraunces:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d14;
+    --surface: #14141f;
+    --card: #1a1a28;
+    --border: #252538;
+    --const: #f7c948;
+    --const-bg: rgba(247,201,72,0.08);
+    --const-border: rgba(247,201,72,0.25);
+    --let: #4fc3f7;
+    --let-bg: rgba(79,195,247,0.08);
+    --let-border: rgba(79,195,247,0.25);
+    --var: #f97878;
+    --var-bg: rgba(249,120,120,0.08);
+    --var-border: rgba(249,120,120,0.25);
+    --text: #e2e2f0;
+    --muted: #5a5a80;
+    --ok: #5cf09a;
+    --err: #ff5f6d;
+    --warn: #ffca3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+  }
+  .h1-const { color: var(--const); }
+  .h1-let   { color: var(--let); }
+  .h1-var   { color: var(--var); }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  /* ── Section headings ── */
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 3rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+
+  /* ── Summary cards ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.4rem 1.2rem;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card.const { border-color: var(--const-border); background: linear-gradient(145deg, var(--card), var(--const-bg)); }
+  .card.let   { border-color: var(--let-border);   background: linear-gradient(145deg, var(--card), var(--let-bg)); }
+  .card.var   { border-color: var(--var-border);    background: linear-gradient(145deg, var(--card), var(--var-bg)); }
+
+  .card .keyword {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+  .card.const .keyword { color: var(--const); }
+  .card.let   .keyword { color: var(--let); }
+  .card.var   .keyword { color: var(--var); }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.18rem 0.55rem;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .badge.ok   { background: rgba(92,240,154,0.15); color: var(--ok); border: 1px solid rgba(92,240,154,0.3); }
+  .badge.warn { background: rgba(255,202,58,0.12); color: var(--warn); border: 1px solid rgba(255,202,58,0.3); }
+  .badge.bad  { background: rgba(255,95,109,0.12); color: var(--err); border: 1px solid rgba(255,95,109,0.3); }
+
+  .card p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── Comparison table ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  thead tr {
+    background: var(--surface);
+  }
+  thead th {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  thead th.const { color: var(--const); }
+  thead th.let   { color: var(--let); }
+  thead th.var   { color: var(--var); }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 0.8rem 1rem;
+    vertical-align: middle;
+  }
+  td:first-child {
+    color: var(--muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .yes  { color: var(--ok);   font-weight: 700; }
+  .no   { color: var(--err);  font-weight: 700; }
+  .warn-text { color: var(--warn); font-weight: 700; }
+
+  /* ── Code demos ── */
+  .demos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .demo {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .demo-header {
+    padding: 0.65rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .demo.const .demo-header { background: var(--const-bg); color: var(--const); }
+  .demo.let   .demo-header { background: var(--let-bg);   color: var(--let); }
+  .demo.var   .demo-header { background: var(--var-bg);   color: var(--var); }
+
+  pre {
+    padding: 1rem;
+    font-size: 0.78rem;
+    line-height: 1.75;
+    overflow-x: auto;
+    tab-size: 2;
+  }
+
+  .kw-const { color: var(--const); font-weight: 700; }
+  .kw-let   { color: var(--let);   font-weight: 700; }
+  .kw-var   { color: var(--var);   font-weight: 700; }
+  .comment  { color: var(--muted); font-style: italic; }
+  .ok-line  { color: var(--ok); }
+  .err-line { color: var(--err); }
+  .str      { color: #c3e88d; }
+  .num      { color: #f78c6c; }
+  .fn       { color: #82aaff; }
+
+  /* ── Scope diagram ── */
+  .scope-diagram {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
+
+  .scope-box {
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 0.6rem 0;
+    position: relative;
+  }
+  .scope-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  .fn-scope {
+    background: rgba(130,170,255,0.06);
+    border: 1px dashed rgba(130,170,255,0.25);
+  }
+  .fn-scope .scope-label { color: #82aaff; }
+  .block-scope {
+    background: rgba(79,195,247,0.05);
+    border: 1px dashed rgba(79,195,247,0.2);
+    margin-top: 0.5rem;
+  }
+  .block-scope .scope-label { color: var(--let); }
+
+  .var-tag {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    margin: 0 0.15rem;
+  }
+  .var-tag.const { background: var(--const-bg); color: var(--const); border: 1px solid var(--const-border); }
+  .var-tag.let   { background: var(--let-bg);   color: var(--let);   border: 1px solid var(--let-border); }
+  .var-tag.var   { background: var(--var-bg);   color: var(--var);   border: 1px solid var(--var-border); }
+
+  .visible   { color: var(--ok); }
+  .invisible { color: var(--err); }
+
+  /* ── Hoisting explainer ── */
+  .hoist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .hoist-card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+  }
+  .hoist-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .hoist-card.const h3 { color: var(--const); }
+  .hoist-card.let   h3 { color: var(--let); }
+  .hoist-card.var   h3 { color: var(--var); }
+  .hoist-card p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── Interactive playground ── */
+  #playground {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .play-header {
+    background: var(--surface);
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: var(--accent, #a78bfa);
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .run-btn {
+    background: var(--ok);
+    color: #0a0f0d;
+    border: none;
+    border-radius: 6px;
+    padding: 0.35rem 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .run-btn:hover { opacity: 0.85; transform: scale(1.03); }
+  .run-btn:active { transform: scale(0.97); }
+
+  .play-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 600px) { .play-body { grid-template-columns: 1fr; } }
+
+  #code-input {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    padding: 1rem;
+    resize: none;
+    min-height: 180px;
+    outline: none;
+    tab-size: 2;
+  }
+  #output {
+    padding: 1rem;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    min-height: 180px;
+    color: var(--muted);
+  }
+  .out-ok  { color: var(--ok); }
+  .out-err { color: var(--err); }
+
+  .tip {
+    background: rgba(167,139,250,0.07);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.78rem;
+    color: #c4b5fd;
+    line-height: 1.65;
+    margin-top: 1rem;
+  }
+  .tip strong { color: #a78bfa; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>
+    <span class="h1-const">const</span>
+    <span style="color:var(--muted)"> · </span>
+    <span class="h1-let">let</span>
+    <span style="color:var(--muted)"> · </span>
+    <span class="h1-var">var</span>
+  </h1>
+  <p>// JavaScript variable declarations — visually compared</p>
+</header>
+
+<!-- ── 1. Summary Cards ── -->
+<div class="section-title">01 — Overview</div>
+<div class="cards">
+  <div class="card const">
+    <span class="keyword">const</span>
+    <div class="badge-row">
+      <span class="badge ok">block-scoped</span>
+      <span class="badge bad">not reassignable</span>
+      <span class="badge ok">no hoisting surprise</span>
+    </div>
+    <p>Declares a binding that cannot be reassigned. The <em>value</em> of primitives is locked. Objects/arrays declared with const can still have their contents mutated.</p>
+  </div>
+  <div class="card let">
+    <span class="keyword">let</span>
+    <div class="badge-row">
+      <span class="badge ok">block-scoped</span>
+      <span class="badge ok">reassignable</span>
+      <span class="badge ok">no hoisting surprise</span>
+    </div>
+    <p>Declares a reassignable binding limited to the enclosing block (<code>{}</code>). The modern default when a variable needs to change.</p>
+  </div>
+  <div class="card var">
+    <span class="keyword">var</span>
+    <div class="badge-row">
+      <span class="badge warn">function-scoped</span>
+      <span class="badge ok">reassignable</span>
+      <span class="badge bad">hoisted + initialized</span>
+    </div>
+    <p>The legacy declaration. Leaks out of blocks into the enclosing function (or global). Hoisted and initialized to <code>undefined</code> — a common source of bugs.</p>
+  </div>
+</div>
+
+<!-- ── 2. Comparison table ── -->
+<div class="section-title">02 — Feature Comparison</div>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th class="const">const</th>
+        <th class="let">let</th>
+        <th class="var">var</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Reassignable</td>
+        <td><span class="no">✗ No</span></td>
+        <td><span class="yes">✓ Yes</span></td>
+        <td><span class="yes">✓ Yes</span></td>
+      </tr>
+      <tr>
+        <td>Scope</td>
+        <td>Block</td>
+        <td>Block</td>
+        <td>Function / Global</td>
+      </tr>
+      <tr>
+        <td>Hoisted</td>
+        <td><span class="warn-text">↑ TDZ</span></td>
+        <td><span class="warn-text">↑ TDZ</span></td>
+        <td><span class="warn-text">↑ → undefined</span></td>
+      </tr>
+      <tr>
+        <td>Re-declarable (same scope)</td>
+        <td><span class="no">✗ No</span></td>
+        <td><span class="no">✗ No</span></td>
+        <td><span class="yes">✓ Yes</span></td>
+      </tr>
+      <tr>
+        <td>Global object property</td>
+        <td><span class="no">✗ No</span></td>
+        <td><span class="no">✗ No</span></td>
+        <td><span class="yes">✓ Yes (window.*)</span></td>
+      </tr>
+      <tr>
+        <td>Must initialize on declare</td>
+        <td><span class="yes">✓ Yes</span></td>
+        <td><span class="no">✗ No</span></td>
+        <td><span class="no">✗ No</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── 3. Scope diagram ── -->
+<div class="section-title">03 — Scope Diagram</div>
+<div class="scope-diagram">
+  <div class="scope-box fn-scope">
+    <div class="scope-label">🔵 Function scope</div>
+    <code><span class="kw-var">var</span> x = <span class="num">1</span>;</code><br>
+    <code><span class="kw-let">let</span> y = <span class="num">2</span>;</code><br>
+    <code><span class="kw-const">const</span> z = <span class="num">3</span>;</code>
+    <br><br>
+    <div class="scope-box block-scope">
+      <div class="scope-label">🟦 if/for/while Block scope</div>
+      <code><span class="kw-var">var</span> x = <span class="num">99</span>;</code> <span class="comment">// same x as outside! (function scope)</span><br>
+      <code><span class="kw-let">let</span> y = <span class="num">99</span>;</code> <span class="comment">// NEW y — only visible here</span><br>
+      <code><span class="kw-const">const</span> z = <span class="num">99</span>;</code> <span class="comment">// NEW z — only visible here</span>
+    </div>
+    <br>
+    After the block:<br>
+    <code>x</code> → <span class="visible">99</span> &nbsp;
+    <span class="var-tag var">var</span> leaked out of the block<br>
+    <code>y</code> → <span class="visible">2</span> &nbsp;
+    <span class="var-tag let">let</span> block's y is gone<br>
+    <code>z</code> → <span class="visible">3</span> &nbsp;
+    <span class="var-tag const">const</span> block's z is gone
+  </div>
+</div>
+
+<!-- ── 4. Code demos ── -->
+<div class="section-title">04 — Code Examples</div>
+<div class="demos">
+
+  <div class="demo const">
+    <div class="demo-header">⬡ const — immutable binding</div>
+    <pre><span class="kw-const">const</span> score = <span class="num">42</span>;
+score = <span class="num">50</span>; <span class="err-line">// ✗ TypeError!</span>
+
+<span class="comment">// But objects CAN be mutated:</span>
+<span class="kw-const">const</span> player = { name: <span class="str">"Ada"</span> };
+player.name = <span class="str">"Grace"</span>; <span class="ok-line">// ✓ OK</span>
+player = {}; <span class="err-line">// ✗ TypeError!</span></pre>
+  </div>
+
+  <div class="demo let">
+    <div class="demo-header">◈ let — reassignable, block-scoped</div>
+    <pre><span class="kw-let">let</span> count = <span class="num">0</span>;
+count = <span class="num">1</span>; <span class="ok-line">// ✓ OK</span>
+
+<span class="fn">if</span> (<span class="num">true</span>) {
+  <span class="kw-let">let</span> inner = <span class="str">"block only"</span>;
+}
+<span class="fn">console</span>.log(inner);
+<span class="err-line">// ✗ ReferenceError!</span></pre>
+  </div>
+
+  <div class="demo var">
+    <div class="demo-header">◎ var — function-scoped, leaks</div>
+    <pre><span class="fn">if</span> (<span class="num">true</span>) {
+  <span class="kw-var">var</span> surprise = <span class="str">"I leaked!"</span>;
+}
+<span class="fn">console</span>.log(surprise);
+<span class="ok-line">// ✓ "I leaked!" — var escapes</span>
+
+<span class="fn">for</span> (<span class="kw-var">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {}
+<span class="fn">console</span>.log(i); <span class="ok-line">// 3 — leaks!</span></pre>
+  </div>
+
+</div>
+
+<!-- ── 5. Hoisting ── -->
+<div class="section-title">05 — Hoisting</div>
+<div class="hoist-grid">
+
+  <div class="hoist-card var">
+    <h3>var — hoisted &amp; initialized</h3>
+    <p>Declaration is moved to the top of the function, initialized to <code>undefined</code>. You can read a <code>var</code> before its line — you just get <code>undefined</code>.</p>
+    <pre><span class="fn">console</span>.log(x); <span class="ok-line">// undefined (not error!)</span>
+<span class="kw-var">var</span> x = <span class="num">5</span>;
+<span class="fn">console</span>.log(x); <span class="ok-line">// 5</span></pre>
+  </div>
+
+  <div class="hoist-card let">
+    <h3>let — hoisted into TDZ</h3>
+    <p>Hoisted but <strong>not</strong> initialized. Accessing before declaration throws a <code>ReferenceError</code>. This "Temporal Dead Zone" protects you.</p>
+    <pre><span class="fn">console</span>.log(y); <span class="err-line">// ✗ ReferenceError</span>
+<span class="kw-let">let</span> y = <span class="num">5</span>;
+<span class="fn">console</span>.log(y); <span class="ok-line">// 5</span></pre>
+  </div>
+
+  <div class="hoist-card const">
+    <h3>const — hoisted into TDZ</h3>
+    <p>Same as <code>let</code> — in the TDZ until its line. Must be initialized immediately; no separate declaration and assignment.</p>
+    <pre><span class="fn">console</span>.log(z); <span class="err-line">// ✗ ReferenceError</span>
+<span class="kw-const">const</span> z = <span class="num">5</span>;
+<span class="fn">console</span>.log(z); <span class="ok-line">// 5</span></pre>
+  </div>
+
+</div>
+
+<!-- ── 6. Playground ── -->
+<div class="section-title">06 — Live Playground</div>
+<div id="playground">
+  <div class="play-header">
+    <span>▶ Try it yourself</span>
+    <button class="run-btn" onclick="runCode()">Run ▶</button>
+  </div>
+  <div class="play-body">
+    <textarea id="code-input" spellcheck="false">// Edit and click Run!
+const name = "Ada";
+let score = 0;
+var legacy = "I'm var";
+
+score = 100;
+// name = "Grace"; // ← Uncomment to see error
+
+if (true) {
+  let blockLet = "inside block";
+  var blockVar = "I leaked!";
+  const blockConst = "also inside";
+}
+
+console.log(name);
+console.log(score);
+console.log(legacy);
+console.log(blockVar);   // var leaked
+// console.log(blockLet); // ← uncomment: ReferenceError
+</textarea>
+    <div id="output">// Output will appear here...</div>
+  </div>
+</div>
+
+<div class="tip">
+  <strong>💡 Modern best practice:</strong> Default to <code>const</code> for everything. Reach for <code>let</code> only when you need to reassign. Avoid <code>var</code> in new code — its function-scope and hoisting behavior cause subtle bugs that <code>let</code>/<code>const</code> prevent by design.
+</div>
+
+<script>
+function runCode() {
+  const input = document.getElementById('code-input').value;
+  const out = document.getElementById('output');
+  const lines = [];
+
+  const fakeConsole = {
+    log: (...args) => lines.push({ type: 'ok', text: args.map(a => {
+      if (typeof a === 'object' && a !== null) return JSON.stringify(a);
+      return String(a);
+    }).join(' ') })
+  };
+
+  try {
+    const fn = new Function('console', input);
+    fn(fakeConsole);
+    out.innerHTML = lines.length
+      ? lines.map(l => `<span class="out-ok">${escHtml(l.text)}</span>`).join('\n')
+      : '<span style="color:var(--muted)">// (no output)</span>';
+  } catch (e) {
+    const existing = lines.map(l => `<span class="out-ok">${escHtml(l.text)}</span>`).join('\n');
+    out.innerHTML = (existing ? existing + '\n' : '') +
+      `<span class="out-err">✗ ${escHtml(e.message)}</span>`;
+  }
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+document.getElementById('code-input').addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = e.target.selectionStart;
+    const v = e.target.value;
+    e.target.value = v.substring(0, s) + '  ' + v.substring(e.target.selectionEnd);
+    e.target.selectionStart = e.target.selectionEnd = s + 2;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runCode();
+});
+</script>
+</body>
+</html>
