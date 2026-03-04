@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carpool</title>
+  <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+<header>
+
+  <img src="assets/topbanner.jpg">
+  Velkommen til Carpool
+
+  <nav>
+    <a href="index.html">hjem</a>
+    <a href="https://dba.dk">Om Carpool</a>
+  </nav>
+
+</header>
+
+<script>
+
+  const urlParams = window.location.search;
+  console.log(urlParams);
+  const param=new URLSearchParams(urlParams);
+//lav en const for hver key/value pair der findes
+  const to = param.get("to");
+  const from = param.get("from");
+  const date = param.get("date");
+  const role = param.get("role");
+  const smoking = param.get("smoking");
+  const returnTrip = param.get("returnTrip");
+
+  //todo:
+  //sammensæt en sætning med variablene og vis på skærmen.
+
+
+
+</script>
+</body>
+</html>

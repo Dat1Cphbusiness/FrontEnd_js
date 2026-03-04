@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <img src="assets/topbanner.jpg">
+    Velkommen til Carpool
+
+<nav>
+    <a href="rides.html">Vis køreture</a>
+    <a href="https://dba.dk">Om Carpool</a>
+</nav>
+
+</header>
+
+<div class="container">
+    <form action="rides.html" method="get">
+        <div class="formgroup" id="row1">
+            <div>
+                <label>Vælg dato:</label>
+                <input type="date" name="date" required>
+            </div>
+        </div>
+        <div class="formgroup" id="row2">
+            <div>
+                <div>
+                    <input type="radio" name="role" value="driver" required>
+                    <label>Chauffør</label>
+                </div>
+                <div>
+                    <input type="radio" id="passenger" name="role" value="passenger">
+                    <label>Passager</label>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <input type="checkbox" id="smoker" name="smoking" value="smoker">
+                    <label for="smoker">Rygning ok?</label>
+                </div>
+                <div>
+
+                    <input type="checkbox" id="return" value="return" name="returnTrip" >
+                    <label for="return">Samme bil hjem?</label>
+                </div>
+            </div>
+        </div>
+        <div class="formgroup" id="row3">
+
+            <div>
+                <label for="from">Fra:</label>
+                <select id="from" name="from" required>
+                    <option value="ronne">Rønne</option>
+                    <option value="nexo">Nexø</option>
+                    <option value="svaneke">Svaneke</option>
+                    <option value="gudhjem">Gudhjem</option>
+                    <option value="aakirkeby">Åkirkeby</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="to">Til:</label>
+                <select id="to" name="to" required>
+                    <option value="ronne">Rønne</option>
+                    <option value="nexo">Nexø</option>
+                    <option value="svaneke">Svaneke</option>
+                    <option value="gudhjem">Gudhjem</option>
+                    <option value="aakirkeby">Åkirkeby</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="formgroup" id="row4">
+            <textarea type="textarea" rows="5"
+                      placeholder="Skriv her hvis du har forbehold eller hvis du vil tilbyde noget tilgengæld. Penge måske eller lektiehjælp, lakridser ?"></textarea>
+        </div>
+        <div class="formgroup" id="row5">
+            <button type="submit">Søg</button>
+        </div>
+
+    </form>
+</div>
+
+
+
+</body>
+
+</html>
